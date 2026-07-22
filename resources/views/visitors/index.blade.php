@@ -3,14 +3,16 @@
 @section('title', 'Visitor Traffic & Tracking Pixel | Telemetry Hub')
 
 @section('content')
+@php
+    $initialProject = $projects->firstWhere('id', $selectedProjectId) ?? $projects->first();
+@endphp
 <div class="space-y-6" x-data="{
     snippetModal: false,
-    selectedProjectName: '',
-    selectedProjectId: '',
+    selectedProjectSlug: '{{ $initialProject->slug ?? '' }}',
     copied: false,
     loading: true,
     copyCode() {
-        const code = `<script defer data-project=\&quot;${this.selectedProjectId}\&quot; src=\&quot;{{ url('/telemetry-pixel.js') }}\&quot;><\/script>`;
+        const code = `<script defer data-project=\&quot;${this.selectedProjectSlug}\&quot; src=\&quot;{{ url('/telemetry-pixel.js') }}\&quot;><\/script>`;
         navigator.clipboard.writeText(code);
         this.copied = true;
         setTimeout(() => this.copied = false, 2000);
@@ -44,7 +46,7 @@
         </div>
 
         <div class="flex items-center gap-3">
-            <button @click="snippetModal = true; selectedProjectName = '{{ $projects->first()->name ?? 'Project' }}'; selectedProjectId = '{{ $projects->first()->id ?? '1' }}'" 
+            <button @click="snippetModal = true" 
                     class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-lg shadow-indigo-500/20 transition-all">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
                 Get Tracking Snippet
@@ -260,20 +262,22 @@
             
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Select Monitored Project:</label>
+                    <label class="block text-xs font-semibold text-zinc-300 mb-1.5 font-mono uppercase tracking-wider">Select Monitored Target Project:</label>
                     <x-dropdown 
-                        selected="{{ $projects->first()->id ?? '' }}" 
-                        :options="$projects->pluck('name', 'id')->toArray()" 
-                        @change="selectedProjectId = $event.detail"
+                        selected="{{ $initialProject->slug ?? '' }}" 
+                        :options="$projects->pluck('name', 'slug')->toArray()" 
+                        @select="selectedProjectSlug = $event.detail"
+                        @change="selectedProjectSlug = $event.detail"
                         class="w-full"
-                        button-class="w-full justify-between"
+                        button-class="w-full justify-between py-2 text-xs font-mono"
+                        menu-class="w-full"
                     />
                 </div>
                 
-                <p class="text-xs text-zinc-400 leading-relaxed">Copy and paste this 1-line script tag before the closing <code class="text-indigo-400 font-mono bg-indigo-500/10 px-1 py-0.5 rounded">&lt;/head&gt;</code> tag of your target website:</p>
+                <p class="text-xs text-zinc-400 leading-relaxed font-mono">Copy and paste this 1-line script tag before the closing <code class="text-indigo-400 font-mono bg-indigo-500/10 px-1 py-0.5 rounded">&lt;/head&gt;</code> tag of your target website:</p>
                 
                 <div class="bg-zinc-950 border border-white/10 rounded-xl p-3.5 relative group font-mono text-xs text-indigo-300 break-all select-all shadow-inner">
-                    <code>&lt;script defer data-project="<span x-text="selectedProjectId"></span>" src="{{ url('/telemetry-pixel.js') }}"&gt;&lt;/script&gt;</code>
+                    <code>&lt;script defer data-project="<span x-text="selectedProjectSlug"></span>" src="{{ url('/telemetry-pixel.js') }}"&gt;&lt;/script&gt;</code>
                 </div>
             </div>
 

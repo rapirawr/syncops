@@ -653,7 +653,7 @@
                 <span class="text-[10px] text-zinc-500">Insert before &lt;/body&gt; tag on your target website</span>
             </div>
             <div class="bg-zinc-900 border border-white/5 rounded-lg p-3 text-xs text-indigo-300 font-mono break-all select-all">
-                <code>&lt;script defer data-project="{{ $project->id }}" src="{{ url('/telemetry-pixel.js') }}"&gt;&lt;/script&gt;</code>
+                <code>&lt;script defer data-project="{{ $project->slug }}" src="{{ url('/telemetry-pixel.js') }}"&gt;&lt;/script&gt;</code>
             </div>
         </div>
 

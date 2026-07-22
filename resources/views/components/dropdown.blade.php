@@ -42,6 +42,7 @@
                     if (form) form.submit();
                 });
             @endif
+            this.$dispatch('select', this.selected);
             this.$dispatch('change', this.selected);
         }
      }"

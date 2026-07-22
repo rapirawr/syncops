@@ -30,16 +30,37 @@ class VisitorAnalyticsController extends Controller
             $payload = json_decode($request->getContent(), true) ?? [];
         }
         $projectIdentifier = $request->input('project') ?? ($payload['project'] ?? null);
-        if (!$projectIdentifier) {
-            return response()->json(['error' => 'Project identifier missing'], 400)
-                ->header('Access-Control-Allow-Origin', $origin)
-                ->header('Access-Control-Allow-Credentials', 'true');
+
+        $referrer = $request->input('referrer') ?? ($payload['referrer'] ?? $request->header('Referer'));
+        $originHeader = $request->header('Origin');
+        $fullUrl = $request->input('full_url') ?? ($payload['full_url'] ?? null);
+
+        $project = null;
+
+        // 1. Try smart matching domain/URL against Project live_url
+        $urlsToTest = array_filter([$referrer, $originHeader, $fullUrl]);
+        foreach ($urlsToTest as $u) {
+            $host = parse_url($u, PHP_URL_HOST);
+            if ($host) {
+                $matched = Project::all()->first(function($p) use ($host) {
+                    if (empty($p->live_url)) return false;
+                    $pHost = parse_url($p->live_url, PHP_URL_HOST);
+                    return $pHost && strtolower($pHost) === strtolower($host);
+                });
+                if ($matched) {
+                    $project = $matched;
+                    break;
+                }
+            }
         }
 
-        $project = Project::where('id', $projectIdentifier)
-            ->orWhere('name', $projectIdentifier)
-            ->orWhere('slug', $projectIdentifier)
-            ->first();
+        // 2. Fallback to project identifier (id, slug, or name)
+        if (!$project && $projectIdentifier) {
+            $project = Project::where('id', $projectIdentifier)
+                ->orWhere('name', $projectIdentifier)
+                ->orWhere('slug', $projectIdentifier)
+                ->first();
+        }
 
         if (!$project) {
             return response()->json(['error' => 'Project not found'], 444)
@@ -57,8 +78,8 @@ class VisitorAnalyticsController extends Controller
             'ip_address' => $ip,
             'user_agent' => $ua,
             'path' => $request->input('path') ?? ($payload['path'] ?? '/'),
-            'full_url' => $request->input('full_url') ?? ($payload['full_url'] ?? null),
-            'referrer' => $request->input('referrer') ?? ($payload['referrer'] ?? null),
+            'full_url' => $fullUrl,
+            'referrer' => $referrer,
             'screen_resolution' => $request->input('screen') ?? ($payload['screen'] ?? null),
             'page_title' => $request->input('title') ?? ($payload['title'] ?? null),
             'lcp_ms' => $request->input('lcp_ms') ?? ($payload['lcp_ms'] ?? null),
@@ -81,6 +102,21 @@ class VisitorAnalyticsController extends Controller
     public function index(Request $request)
     {
         $projects = Project::orderBy('name')->get();
+
+        // Smart auto-correct legacy misattributed logs by matching referrer/full_url against project live_url domains
+        foreach ($projects as $proj) {
+            if (empty($proj->live_url)) continue;
+            $host = parse_url($proj->live_url, PHP_URL_HOST);
+            if ($host) {
+                VisitorLog::where(function($q) use ($host) {
+                    $q->where('referrer', 'LIKE', '%' . $host . '%')
+                      ->orWhere('full_url', 'LIKE', '%' . $host . '%');
+                })
+                ->where('project_id', '!=', $proj->id)
+                ->update(['project_id' => $proj->id]);
+            }
+        }
+
         $selectedProjectId = $request->get('project_id');
 
         $query = VisitorLog::with('project')->latest('created_at');

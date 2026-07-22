@@ -26,7 +26,8 @@
     $initialKey = (string) ($selected ?? (array_keys($formattedOptions)[0] ?? ''));
 @endphp
 
-<div x-data="{
+<div {{ $attributes->merge(['class' => 'inline-block ' . $class]) }}
+     x-data="{
         open: false,
         selected: '{{ addslashes($initialKey) }}',
         options: {{ json_encode($formattedOptions) }},
@@ -47,8 +48,7 @@
         }
      }"
      @click.outside="open = false"
-     :class="open ? 'z-50 relative' : 'relative z-10'"
-     class="inline-block {{ $class }}">
+     :class="open ? 'z-50 relative' : 'relative z-10'">
 
     @if($name)
         <input type="hidden" 

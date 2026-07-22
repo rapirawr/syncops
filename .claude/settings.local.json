@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php artisan *)",
+      "Bash(mkdir -p \"/c/Users/HYPE R Series/.claude/plans\")",
+      "Bash(touch \"/c/Users/HYPE R Series/.claude/plans/delightful-dazzling-otter-agent-aa980cadf0816d3f2.md\")"
+    ]
+  }
+}

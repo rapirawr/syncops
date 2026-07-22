@@ -1,0 +1,58 @@
+@import 'tailwindcss';
+
+@source '../views/**/*.blade.php';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    /* Fonts */
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+    /* Theme colors */
+    --color-zinc-950: #111110;
+    --color-zinc-900: #161614;
+    --color-zinc-850: #1b1b1f;
+    --color-zinc-800: #222226;
+    
+    /* Semantic Status Colors (Enterprise Palette) */
+    --color-status-healthy-bg: rgba(16, 185, 129, 0.08);
+    --color-status-healthy-text: #10b981;
+    --color-status-healthy-border: rgba(16, 185, 129, 0.15);
+    
+    --color-status-warning-bg: rgba(245, 158, 11, 0.08);
+    --color-status-warning-text: #f59e0b;
+    --color-status-warning-border: rgba(245, 158, 11, 0.15);
+    
+    --color-status-critical-bg: rgba(239, 68, 68, 0.08);
+    --color-status-critical-text: #ef4444;
+    --color-status-critical-border: rgba(239, 68, 68, 0.15);
+    
+    --color-status-sky-bg: rgba(14, 165, 233, 0.08);
+    --color-status-sky-text: #0ea5e9;
+    --color-status-sky-border: rgba(14, 165, 233, 0.15);
+
+    --color-status-neutral-bg: rgba(113, 113, 122, 0.08);
+    --color-status-neutral-text: #71717a;
+    --color-status-neutral-border: rgba(113, 113, 122, 0.15);
+}
+
+/* Force all card/widget container elements to have solid #161614 background */
+[class*="bg-zinc-900/"] {
+    background-color: #161614 !important;
+}
+
+/* Safelist dynamic border-top status classes used in card grid view */
+.border-t-status-healthy-text  { border-top-color: var(--color-status-healthy-text); }
+.border-t-status-warning-text  { border-top-color: var(--color-status-warning-text); }
+.border-t-status-critical-text { border-top-color: var(--color-status-critical-text); }
+.border-t-status-sky-text      { border-top-color: var(--color-status-sky-text); }
+.border-t-status-neutral-text  { border-top-color: var(--color-status-neutral-text); }
+
+/* Make all buttons have pointer cursor by default */
+button, 
+[type="button"], 
+[type="submit"] {
+    cursor: pointer;
+}

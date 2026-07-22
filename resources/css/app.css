@@ -1,0 +1,680 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Outfit:wght@300..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+@import 'tailwindcss';
+
+@source '../views/**/*.blade.php';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+[x-cloak] {
+    display: none !important;
+}
+
+@theme {
+    /* Fonts */
+    --font-sans: 'Instrument Sans', 'Outfit', 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Instrument Sans', 'Outfit', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+    /* Dark Theme Colors */
+    --color-zinc-950: #161614;
+    --color-zinc-900: #18181b;
+    --color-zinc-850: #1e1e24;
+    --color-zinc-800: #27272a;
+    --color-zinc-700: #3f3f46;
+    --color-zinc-600: #52525b;
+    --color-zinc-500: #71717a;
+    --color-zinc-400: #a1a1aa;
+    --color-zinc-300: #d4d4d8;
+    --color-zinc-200: #e4e4e7;
+    --color-zinc-100: #f4f4f5;
+
+    /* Semantic Status Colors (Enterprise Palette) */
+    --color-status-healthy-bg: rgba(16, 185, 129, 0.08);
+    --color-status-healthy-text: #10b981;
+    --color-status-healthy-border: rgba(16, 185, 129, 0.2);
+
+    --color-status-warning-bg: rgba(245, 158, 11, 0.08);
+    --color-status-warning-text: #f59e0b;
+    --color-status-warning-border: rgba(245, 158, 11, 0.2);
+
+    --color-status-critical-bg: rgba(239, 68, 68, 0.08);
+    --color-status-critical-text: #ef4444;
+    --color-status-critical-border: rgba(239, 68, 68, 0.2);
+
+    --color-status-sky-bg: rgba(14, 165, 233, 0.08);
+    --color-status-sky-text: #0ea5e9;
+    --color-status-sky-border: rgba(14, 165, 233, 0.2);
+
+    --color-status-neutral-bg: rgba(113, 113, 122, 0.08);
+    --color-status-neutral-text: #71717a;
+}
+
+html, body {
+    background-color: #161614 !important;
+    background-image: none !important;
+    color: #f8fafc;
+}
+
+/* Card & Panel Border Radius (Smooth Soft Curve) */
+.rounded-lg,
+.rounded-xl,
+.rounded-2xl,
+.rounded-3xl {
+    border-radius: 1rem !important; /* 16px smooth rounded curves */
+}
+
+/* Force solid backgrounds for all card components (no gradients) */
+[class*="bg-zinc-900"],
+[class*="bg-zinc-950"],
+aside,
+header {
+    background-image: none !important;
+}
+
+
+
+
+button, 
+[type="button"], 
+[type="submit"] {
+    cursor: pointer;
+}
+
+/* =========================================
+   SKELETON LOADING (dark theme shimmer)
+   ========================================= */
+.skeleton {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.06),
+        transparent
+    );
+    animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+    100% { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeleton::after { animation: none; }
+}
+
+/* =========================================
+   GLOBAL PREMIUM SCROLLBAR STYLES
+   ========================================= */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 9999px;
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.18);
+    background-clip: padding-box;
+}
+
+/* Firefox Support */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+}
+
+/* =========================================
+   PAGE TRANSITION ANIMATIONS (EASE IN OUT)
+   ========================================= */
+/* =========================================
+   PAGE TRANSITION & STAGGER ANIMATIONS
+   ========================================= */
+@keyframes pageFadeEnter {
+    0% {
+        opacity: 0;
+        transform: translateY(12px) scale(0.99);
+        filter: blur(4px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+    }
+}
+
+@keyframes pageFadeExit {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.985);
+        filter: blur(4px);
+    }
+}
+
+.page-transition-enter {
+    animation: pageFadeEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: transform, opacity, filter;
+}
+
+.page-transition-exit {
+    animation: pageFadeExit 0.2s cubic-bezier(0.4, 0, 1, 1) forwards !important;
+    will-change: transform, opacity, filter;
+}
+
+/* =========================================
+   ADVANCED MICRO-ANIMATION SYSTEM & EFFECTS
+   ========================================= */
+
+/* Staggered entrance animation delays */
+.animate-stagger > * {
+    animation: slideUpFade 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes slideUpFade {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.stagger-1 { animation-delay: 40ms !important; }
+.stagger-2 { animation-delay: 80ms !important; }
+.stagger-3 { animation-delay: 120ms !important; }
+.stagger-4 { animation-delay: 160ms !important; }
+.stagger-5 { animation-delay: 200ms !important; }
+.stagger-6 { animation-delay: 240ms !important; }
+
+/* Interactive Hover Lift & Glow Effects */
+.hover-lift {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, box-shadow;
+}
+
+.hover-lift:hover {
+    transform: translateY(-3px) scale(1.008);
+    box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.6), 0 0 15px -3px rgba(99, 102, 241, 0.15);
+}
+
+.hover-lift-sm {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift-sm:hover {
+    transform: translateY(-1.5px);
+}
+
+/* Multi-Ring Radar Beacon Pulse Animation */
+@keyframes radarRing {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.9;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(2.4);
+        opacity: 0;
+    }
+}
+
+.animate-radar-ping {
+    position: relative;
+}
+
+.animate-radar-ping::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 9999px;
+    background: inherit;
+    animation: radarRing 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    pointer-events: none;
+}
+
+/* Soft Breathing Glow Animation */
+@keyframes statusBreathe {
+    0%, 100% {
+        opacity: 1;
+        filter: drop-shadow(0 0 4px currentColor);
+    }
+    50% {
+        opacity: 0.5;
+        filter: drop-shadow(0 0 1px currentColor);
+    }
+}
+
+.animate-status-breathe {
+    animation: statusBreathe 2.5s ease-in-out infinite;
+}
+
+/* Subtle Shimmer Ray Animation */
+@keyframes shimmerPass {
+    0% {
+        transform: translateX(-150%) rotate(25deg);
+    }
+    100% {
+        transform: translateX(250%) rotate(25deg);
+    }
+}
+
+.shimmer-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.shimmer-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        60deg,
+        transparent 40%,
+        rgba(255, 255, 255, 0.04) 50%,
+        transparent 60%
+    );
+    transform: translateX(-100%) rotate(25deg);
+    pointer-events: none;
+}
+
+.shimmer-card:hover::before {
+    animation: shimmerPass 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Floating micro-motion */
+@keyframes floatSubtle {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-3px); }
+}
+
+.animate-float-subtle {
+    animation: floatSubtle 4s ease-in-out infinite;
+}
+
+/* Smooth Animation System & Micro-Interactions */
+.transition-all, .transition, button, a, input, select {
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+button:active, [type="button"]:active, [type="submit"]:active {
+    transform: scale(0.97);
+    transition: transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* =========================================
+   AI CHAT INTERFACE STYLES
+   ========================================= */
+
+.animate-spin-slow {
+    animation: spin-slow 12s linear infinite;
+}
+
+@keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.ai-chat-messages {
+    padding: 1.5rem 0;
+    scroll-behavior: smooth;
+}
+
+.ai-chat-turn {
+    display: flex;
+    margin-bottom: 1.25rem;
+    animation: chatFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes chatFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* User Message Bubble */
+.ai-msg-user {
+    max-width: 80%;
+    padding: 0.625rem 1rem;
+    border-radius: 1.125rem 1.125rem 0.25rem 1.125rem;
+    background: rgba(99, 102, 241, 0.12);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.8125rem;
+    line-height: 1.55;
+}
+
+/* Assistant Message */
+.ai-msg-assistant {
+    padding: 0.25rem 0;
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Tool Call Indicator */
+.ai-tool-indicator {
+    margin-bottom: 0.5rem;
+    border-radius: 0.625rem;
+    background: rgba(6, 182, 212, 0.06);
+    border: 1px solid rgba(6, 182, 212, 0.12);
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.ai-tool-indicator.is-done {
+    background: rgba(99, 102, 241, 0.05);
+    border-color: rgba(99, 102, 241, 0.1);
+}
+
+.ai-tool-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.4rem 0.75rem;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+}
+
+.ai-tool-header:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.ai-tool-body {
+    padding: 0 0.75rem 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Thinking Indicator */
+.ai-thinking-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.5rem 0;
+}
+
+.ai-thinking-dots {
+    display: flex;
+    gap: 3px;
+}
+
+.ai-thinking-dots span {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.6);
+    animation: thinkingPulse 1.4s ease-in-out infinite;
+}
+
+.ai-thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+.ai-thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes thinkingPulse {
+    0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1.1); }
+}
+
+/* Markdown Content Area */
+.ai-markdown-body {
+    line-height: 1.75;
+    word-break: break-word;
+}
+
+.ai-markdown-body h1,
+.ai-markdown-body h2,
+.ai-markdown-body h3 {
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 0.4em;
+}
+.ai-markdown-body h1 { font-size: 1.15em; }
+.ai-markdown-body h2 { font-size: 1.05em; }
+.ai-markdown-body h3 { font-size: 0.95em; }
+
+.ai-markdown-body p {
+    margin: 0.4em 0;
+}
+
+.ai-markdown-body ul,
+.ai-markdown-body ol {
+    padding-left: 1.5em;
+    margin: 0.5em 0;
+}
+
+.ai-markdown-body li {
+    margin: 0.2em 0;
+}
+
+.ai-markdown-body strong {
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 600;
+}
+
+.ai-markdown-body code {
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    font-family: var(--font-mono), monospace;
+    font-size: 0.85em;
+    color: rgba(167, 139, 250, 0.9);
+}
+
+.ai-markdown-body pre {
+    margin: 0.75em 0;
+    border-radius: 0.625rem;
+    overflow-x: auto;
+}
+
+.ai-markdown-body pre code {
+    display: block;
+    padding: 0.875rem 1rem;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 0.625rem;
+    font-size: 0.78em;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.ai-code-block-wrapper {
+    position: relative;
+}
+
+.ai-code-copy-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.65rem;
+    font-family: var(--font-mono), monospace;
+    color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.375rem;
+    z-index: 10;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.ai-code-copy-btn:hover {
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.ai-markdown-body table {
+    width: 100%;
+    margin: 0.75em 0;
+    border-collapse: collapse;
+    font-size: 0.85em;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.ai-markdown-body th {
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ai-markdown-body td {
+    padding: 0.4rem 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.ai-markdown-body tr:last-child td {
+    border-bottom: none;
+}
+
+/* Error Inline */
+.ai-error-inline {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 0.875rem;
+    margin-top: 0.5rem;
+    border-radius: 0.625rem;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.15);
+}
+
+.ai-retry-btn {
+    margin-left: auto;
+    padding: 0.25rem 0.625rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: rgba(239, 68, 68, 0.9);
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 0.5rem;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.ai-retry-btn:hover {
+    background: rgba(239, 68, 68, 0.18);
+}
+
+/* Message Action Buttons */
+.ai-msg-actions {
+    display: flex;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+    padding-top: 0.25rem;
+}
+
+.ai-action-btn {
+    padding: 0.3rem;
+    color: rgba(255, 255, 255, 0.3);
+    background: transparent;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.ai-action-btn:hover {
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Stop Generating Button */
+.ai-stop-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.875rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 1.25rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.ai-stop-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+/* Alpine x-collapse support */
+[x-collapse] {
+    overflow: hidden;
+}
+
+/* =========================================
+   AI CHAT SUGGESTION BUTTONS (empty state)
+   ========================================= */
+.ai-chat-suggestion {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 0.75rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    line-height: 1.4;
+}
+
+.ai-chat-suggestion:hover {
+    background: rgba(99, 102, 241, 0.08);
+    border-color: rgba(99, 102, 241, 0.2);
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.ai-chat-suggestion:active {
+    transform: scale(0.99);
+}

@@ -7,8 +7,8 @@
     <title>@yield('title', 'Project Monitor') | Telemetry Hub</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=2">
-    <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v=2">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=3">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v=3">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -113,7 +113,7 @@
             <div class="flex h-14 items-center justify-between px-5 border-b border-white/5 bg-zinc-950/60">
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5 group">
                     <div class="h-7 w-7 rounded-lg overflow-hidden flex items-center justify-center bg-zinc-900 border border-white/10 p-0.5">
-                        <img src="{{ asset('syncops-logo.png') }}" alt="SyncOps Logo" class="h-full w-full object-cover rounded">
+                        <img src="{{ asset('syncops-logo.png') }}?v=3" alt="SyncOps Logo" class="h-full w-full object-cover rounded">
                     </div>
                     <span class="text-xs font-bold tracking-widest text-zinc-100 font-sans group-hover:text-indigo-400 transition">
                         SyncOps

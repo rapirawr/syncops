@@ -381,6 +381,14 @@ class ProjectController extends Controller
         $project->load(['latestMetricsSnapshot', 'latestGithubSnapshot', 'statusOverrides']);
 
         if (request()->wantsJson() || request()->ajax()) {
+            $recentSnaps = $project->recentMetricsSnapshots->reverse()->values()->map(function($snap) {
+                return [
+                    'status' => $snap->health_status,
+                    'latency' => $snap->avg_response_time_ms,
+                    'checked_at' => $snap->checked_at ? $snap->checked_at->format('M d, H:i') : 'Ping Scan',
+                ];
+            });
+
             return response()->json([
                 'success' => true,
                 'status' => $project->runtime_status,
@@ -390,6 +398,8 @@ class ProjectController extends Controller
                 'error_rate_raw' => $project->latestMetricsSnapshot ? $project->latestMetricsSnapshot->error_rate : 0,
                 'avg_response_time_ms' => $project->latestMetricsSnapshot && $project->latestMetricsSnapshot->avg_response_time_ms ? $project->latestMetricsSnapshot->avg_response_time_ms . ' ms' : '—',
                 'checked_at' => $project->latestMetricsSnapshot && $project->latestMetricsSnapshot->checked_at ? $project->latestMetricsSnapshot->checked_at->diffForHumans() : 'just now',
+                'uptime_percentage' => $project->uptime_percentage,
+                'recent_snaps' => $recentSnaps,
             ]);
         }
 

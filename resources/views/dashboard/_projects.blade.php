@@ -181,7 +181,7 @@
                                 $padCount = max(0, 30 - $recentSnaps->count());
                             @endphp
                             <div class="inline-flex items-center gap-2">
-                                <div class="flex items-center gap-[2px]">
+                                <div id="project-table-uptime-bar-{{ $project->id }}" class="flex items-center gap-[2px]">
                                     @for($i = 0; $i < $padCount; $i++)
                                         <span class="w-1.5 h-4 rounded-[1px] bg-zinc-800/60" data-tooltip="No telemetry snapshot recorded"></span>
                                     @endfor
@@ -199,7 +199,7 @@
                                         <span class="w-1.5 h-4 rounded-[1px] {{ $barBg }} transition-colors cursor-pointer" data-tooltip="{{ $tooltipStr }}"></span>
                                     @endforeach
                                 </div>
-                                <span class="text-[10px] font-bold {{ ($project->uptime_percentage ?? 100) >= 98 ? 'text-emerald-400' : (($project->uptime_percentage ?? 100) >= 90 ? 'text-amber-400' : 'text-rose-400') }}">
+                                <span id="project-table-uptime-pct-{{ $project->id }}" class="text-[10px] font-bold {{ ($project->uptime_percentage ?? 100) >= 98 ? 'text-emerald-400' : (($project->uptime_percentage ?? 100) >= 90 ? 'text-amber-400' : 'text-rose-400') }}">
                                     {{ $project->uptime_percentage ?? 100 }}%
                                 </span>
                             </div>
@@ -392,11 +392,11 @@
                 <div class="px-5 py-2.5 border-t border-white/5 bg-zinc-950/20 font-mono">
                     <div class="flex items-center justify-between gap-2 mb-1.5">
                         <span class="text-[8px] font-bold text-zinc-500 uppercase tracking-widest">Uptime History (Last 30)</span>
-                        <span class="text-[10px] font-bold {{ ($project->uptime_percentage ?? 100) >= 98 ? 'text-emerald-400' : (($project->uptime_percentage ?? 100) >= 90 ? 'text-amber-400' : 'text-rose-400') }}">
+                        <span id="project-card-uptime-pct-{{ $project->id }}" class="text-[10px] font-bold {{ ($project->uptime_percentage ?? 100) >= 98 ? 'text-emerald-400' : (($project->uptime_percentage ?? 100) >= 90 ? 'text-amber-400' : 'text-rose-400') }}">
                             {{ $project->uptime_percentage ?? 100 }}%
                         </span>
                     </div>
-                    <div class="flex items-center gap-[2px] w-full justify-between">
+                    <div id="project-card-uptime-bar-{{ $project->id }}" class="flex items-center gap-[2px] w-full justify-between">
                         @php
                             $cardSnaps = $project->recentMetricsSnapshots->reverse();
                             $cardPad = max(0, 30 - $cardSnaps->count());

@@ -582,6 +582,71 @@
 
         const cardLastSync = document.getElementById(`project-card-last-sync-${projectId}`);
         if (cardLastSync) cardLastSync.innerText = "Checked " + data.checked_at;
+
+        // 5. Update uptime history bar & percentage dynamically
+        if (data.recent_snaps !== undefined) {
+            updateUptimeBarUI(projectId, data.uptime_percentage, data.recent_snaps);
+        }
+    }
+
+    function updateUptimeBarUI(projectId, uptimePct, snaps) {
+        const pctText = (uptimePct !== undefined ? uptimePct : 100) + '%';
+        let pctColor = 'text-emerald-400';
+        if (uptimePct < 90) pctColor = 'text-rose-400';
+        else if (uptimePct < 98) pctColor = 'text-amber-400';
+
+        const cardPct = document.getElementById(`project-card-uptime-pct-${projectId}`);
+        if (cardPct) {
+            cardPct.innerText = pctText;
+            cardPct.className = `text-[10px] font-bold ${pctColor}`;
+        }
+        const tablePct = document.getElementById(`project-table-uptime-pct-${projectId}`);
+        if (tablePct) {
+            tablePct.innerText = pctText;
+            tablePct.className = `text-[10px] font-bold ${pctColor}`;
+        }
+
+        if (!snaps || !Array.isArray(snaps)) return;
+
+        const padCount = Math.max(0, 30 - snaps.length);
+
+        const cardBarContainer = document.getElementById(`project-card-uptime-bar-${projectId}`);
+        if (cardBarContainer) {
+            let html = '';
+            for (let i = 0; i < padCount; i++) {
+                html += `<span class="flex-1 h-3 rounded-[1px] bg-zinc-800/60" data-tooltip="No telemetry snapshot recorded"></span>`;
+            }
+            snaps.forEach(s => {
+                let bg = 'bg-zinc-700';
+                if (s.status === 'healthy') bg = 'bg-emerald-500 hover:bg-emerald-400';
+                else if (s.status === 'warning') bg = 'bg-amber-500 hover:bg-amber-400';
+                else if (s.status === 'critical' || s.status === 'unreachable') bg = 'bg-rose-500 hover:bg-rose-400';
+                else if (s.status === 'maintenance') bg = 'bg-sky-500 hover:bg-sky-400';
+
+                const tooltip = `${s.checked_at} • Status: ${String(s.status).toUpperCase()}` + (s.latency ? ` (${s.latency} ms)` : '');
+                html += `<span class="flex-1 h-3 rounded-[1px] ${bg} transition-colors cursor-pointer" data-tooltip="${tooltip}"></span>`;
+            });
+            cardBarContainer.innerHTML = html;
+        }
+
+        const tableBarContainer = document.getElementById(`project-table-uptime-bar-${projectId}`);
+        if (tableBarContainer) {
+            let html = '';
+            for (let i = 0; i < padCount; i++) {
+                html += `<span class="w-1.5 h-4 rounded-[1px] bg-zinc-800/60" data-tooltip="No telemetry snapshot recorded"></span>`;
+            }
+            snaps.forEach(s => {
+                let bg = 'bg-zinc-700';
+                if (s.status === 'healthy') bg = 'bg-emerald-500 hover:bg-emerald-400';
+                else if (s.status === 'warning') bg = 'bg-amber-500 hover:bg-amber-400';
+                else if (s.status === 'critical' || s.status === 'unreachable') bg = 'bg-rose-500 hover:bg-rose-400';
+                else if (s.status === 'maintenance') bg = 'bg-sky-500 hover:bg-sky-400';
+
+                const tooltip = `${s.checked_at} • Status: ${String(s.status).toUpperCase()}` + (s.latency ? ` (${s.latency} ms)` : '');
+                html += `<span class="w-1.5 h-4 rounded-[1px] ${bg} transition-colors cursor-pointer" data-tooltip="${tooltip}"></span>`;
+            });
+            tableBarContainer.innerHTML = html;
+        }
     }
 
     function updateAggregateWidgets() {
@@ -713,7 +778,7 @@
     }
     window.runSyncAllSequence = runSyncAllSequence;
 
-    // Auto-refresh polling: silently re-fetch all project data every 60 seconds
+    // Auto-refresh polling: silently re-fetch all project data every 30 seconds
     setInterval(async () => {
         for (const project of projectsToSync) {
             try {
@@ -722,6 +787,6 @@
                 // Silent fail
             }
         }
-    }, 60000);
+    }, 30000);
 </script>
 @endsection

@@ -228,7 +228,6 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="h-2 w-2 rounded-full bg-amber-400 animate-ping"></span>
                         <span class="text-base font-bold text-white font-mono">ISOLATED / DRAIN</span>
                     </div>
                     <p class="text-[10px] text-zinc-500 font-mono">Trafik dialihkan ke standby queue</p>
@@ -263,8 +262,7 @@
                         </div>
                         <span class="text-zinc-400 text-[11px] ml-2 font-bold">system_diagnostics.log</span>
                         <span class="text-zinc-600">|</span>
-                        <span class="text-emerald-400 text-[10px] flex items-center gap-1">
-                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span class="text-emerald-400 text-[10px]">
                             LIVE STREAM
                         </span>
                     </div>

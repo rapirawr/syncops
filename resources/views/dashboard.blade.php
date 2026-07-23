@@ -711,6 +711,7 @@
             await syncProject(project.id, project.syncUrl);
         }
     }
+    window.runSyncAllSequence = runSyncAllSequence;
 
     // Auto-refresh polling: silently re-fetch all project data every 60 seconds
     setInterval(async () => {

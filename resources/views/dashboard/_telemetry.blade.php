@@ -64,7 +64,6 @@
                 <div class="flex items-center justify-between text-[9px] font-bold text-zinc-500 uppercase tracking-widest mb-1">
                     <span>GPU Hardware</span>
                     <span class="text-emerald-400 font-bold uppercase flex items-center gap-1">
-                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-status-breathe"></span>
                         {{ $serverMetrics['gpu']['status'] }}
                     </span>
                 </div>

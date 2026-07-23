@@ -128,6 +128,15 @@ class UptimeCheckerService
             return 'critical';
         }
 
+        // Absolute response time thresholds (High Latency Degradation)
+        if ($responseTimeMs >= 3000) {
+            return 'critical';
+        }
+
+        if ($responseTimeMs >= 1000) {
+            return 'warning';
+        }
+
         // Check if response time is significantly higher than historical average
         $isSlow = $this->checkIsResponseTimeAnomaly($project, $responseTimeMs);
 

@@ -6,6 +6,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Project Monitor') | Telemetry Hub</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=2">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v=2">
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -106,15 +110,14 @@
         <aside class="fixed inset-y-0 left-0 w-64 bg-zinc-950 border-r border-white/10 z-50 md:relative md:inset-auto md:h-full md:z-30 md:bg-zinc-950/40 md:border md:border-white/5 md:rounded-2xl flex flex-col transition-all duration-300 cubic-bezier(0.16, 1, 0.3, 1) font-sans flex-shrink-0"
                :class="sidebarOpen ? 'translate-x-0 opacity-100 scale-100 pointer-events-auto md:w-64 md:opacity-100 md:scale-100' : '-translate-x-full opacity-0 pointer-events-none md:w-0 md:opacity-0 md:scale-95 md:border-0 md:p-0 md:overflow-hidden'">
             <!-- Brand / Logo -->
-            <div class="flex h-14 items-center justify-between px-6 border-b border-white/5 bg-zinc-950/60">
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
-                    <div class="h-5.5 w-5.5 rounded bg-zinc-800 border border-white/10 flex items-center justify-center">
-                        <svg class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
-                        </svg>
+            <div class="flex h-14 items-center justify-between px-5 border-b border-white/5 bg-zinc-950/60">
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5 group">
+                    <div class="h-7 w-7 rounded-lg overflow-hidden flex items-center justify-center bg-zinc-900 border border-white/10 p-0.5">
+                        <img src="{{ asset('syncops-logo.png') }}" alt="SyncOps Logo" class="h-full w-full object-cover rounded">
                     </div>
-                    <span class="text-xs font-bold tracking-widest text-zinc-100 font-sans">
-                        SyncOps</span>
+                    <span class="text-xs font-bold tracking-widest text-zinc-100 font-sans group-hover:text-indigo-400 transition">
+                        SyncOps
+                    </span>
                 </a>
                 
                 <!-- Close Button (Mobile Only) -->

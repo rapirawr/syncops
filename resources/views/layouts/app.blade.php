@@ -110,10 +110,10 @@
         <aside class="fixed inset-y-0 left-0 w-64 bg-zinc-950 border-r border-white/10 z-50 md:relative md:inset-auto md:h-full md:z-30 md:bg-zinc-950/40 md:border md:border-white/5 md:rounded-2xl flex flex-col transition-all duration-300 cubic-bezier(0.16, 1, 0.3, 1) font-sans flex-shrink-0"
                :class="sidebarOpen ? 'translate-x-0 opacity-100 scale-100 pointer-events-auto md:w-64 md:opacity-100 md:scale-100' : '-translate-x-full opacity-0 pointer-events-none md:w-0 md:opacity-0 md:scale-95 md:border-0 md:p-0 md:overflow-hidden'">
             <!-- Brand / Logo -->
-            <div class="flex h-14 items-center justify-between px-5 border-b border-white/5 bg-zinc-950/60">
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5 group">
-                    <img src="{{ asset('syncops-logo.png') }}?v=3" alt="SyncOps Logo" class="h-8 w-8 object-contain">
-                    <span class="text-xs font-bold tracking-widest text-zinc-100 font-sans group-hover:text-indigo-400 transition">
+            <div class="flex h-16 items-center justify-between px-5 border-b border-white/5 bg-zinc-950/60">
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 group">
+                    <img src="{{ asset('syncops-logo.png') }}?v=3" alt="SyncOps Logo" class="h-11 w-11 object-contain flex-shrink-0">
+                    <span class="text-sm font-bold tracking-widest text-zinc-100 font-sans group-hover:text-indigo-400 transition">
                         SyncOps
                     </span>
                 </a>

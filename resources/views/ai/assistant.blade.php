@@ -746,6 +746,10 @@ window.aiChat = function aiChat() {
                     signal: this.abortController.signal
                 });
                 if (!res.ok) {
+                    if (res.status === 403 || res.status === 419) {
+                        this.activeSessionId = null;
+                        throw new Error('Sesi Anda tidak valid atau telah kedaluwarsa. Silakan muat ulang halaman (F5).');
+                    }
                     const errData = await res.json().catch(() => ({}));
                     throw new Error(errData.error || `HTTP ${res.status}`);
                 }

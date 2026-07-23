@@ -101,16 +101,14 @@ class AiAssistantController extends Controller
         $isFirstMessage = false;
 
         if (!empty($validated['session_id'])) {
-            // Load existing session and authorise
-            $session = AiChatSession::find($validated['session_id']);
-
-            if (!$session || $session->user_id !== auth()->id()) {
-                return response()->json(['success' => false, 'error' => 'Forbidden.'], 403);
-            }
+            // Load existing session for current user
+            $session = AiChatSession::where('id', $validated['session_id'])
+                ->where('user_id', auth()->id())
+                ->first();
         }
 
         if (!$session) {
-            // First message of a brand-new session — create it NOW
+            // Create a brand-new session automatically
             $session = AiChatSession::create([
                 'user_id'         => auth()->id(),
                 'title'           => AiChatSession::titleFromPrompt($validated['question']),
@@ -234,10 +232,9 @@ class AiAssistantController extends Controller
         $isFirstMessage = false;
 
         if (!empty($validated['session_id'])) {
-            $session = AiChatSession::find($validated['session_id']);
-            if (!$session || $session->user_id !== auth()->id()) {
-                return response()->json(['success' => false, 'error' => 'Forbidden.'], 403);
-            }
+            $session = AiChatSession::where('id', $validated['session_id'])
+                ->where('user_id', auth()->id())
+                ->first();
         }
 
         if (!$session) {

@@ -243,7 +243,7 @@ class Project extends Model
 
         $latency = $snapshot->avg_response_time_ms;
 
-        if ($latency === null || $latency >= 1000) {
+        if ($latency === null || $latency >= 3000) {
             return 'critical';
         }
 

@@ -67,4 +67,3 @@ Route::get('/metrics', function () {
         'timestamp' => now()->toIso8601String(),
     ]);
 });
-

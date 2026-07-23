@@ -370,8 +370,8 @@ class AiToolExecutor
                 'guide_markdown' => "Metrik RUM ditangkap langsung dari browser pengunjung live:\n\n- **LCP** (Largest Contentful Paint): Target ≤ 2,500 ms\n- **INP** (Interaction to Next Paint): Target ≤ 200 ms\n- **CLS** (Cumulative Layout Shift): Target ≤ 0.10\n- **TTFB** (Time to First Byte): Target ≤ 800 ms",
             ],
             default => [
-                'platform' => 'SyncOps Project Telemetry Hub & AI Diagnostics',
-                'guide_markdown' => "Fitur Utama SyncOps Telemetry Hub:\n\n1. **Systems Monitor**: Monitoring uptime 30-detik otomatis.\n2. **Telemetry Logs**: Log detail riwayat HTTP check & disrupsi.\n3. **AI Ops Assistant**: Diagnostik AI real-time dengan tool calling DB.\n4. **SLA & Benchmark Suite**: Analisis SLA & Synthetic stress test.\n5. **Visitor Analytics**: RUM Core Web Vitals & Tracking Pixel telemetry.",
+                'platform' => 'SyncOps & AI Diagnostics',
+                'guide_markdown' => "Fitur Utama SyncOps:\n\n1. **Systems Monitor**: Monitoring uptime 30-detik otomatis.\n2. **Telemetry Logs**: Log detail riwayat HTTP check & disrupsi.\n3. **AI Ops Assistant**: Diagnostik AI real-time dengan tool calling DB.\n4. **SLA & Benchmark Suite**: Analisis SLA & Synthetic stress test.\n5. **Visitor Analytics**: RUM Core Web Vitals & Tracking Pixel telemetry.",
             ]
         };
     }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>503 | Pemeliharaan Sistem - SyncOps Telemetry Hub</title>
+    <title>503 | Pemeliharaan Sistem - SyncOps</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -125,7 +125,7 @@
                     <div class="flex items-center gap-2">
                         <span class="text-sm font-bold tracking-widest text-zinc-100 uppercase">SyncOps</span>
                         <span class="text-xs text-zinc-600">/</span>
-                        <span class="text-xs font-mono font-semibold text-amber-400">TELEMETRY HUB</span>
+                        <span class="text-xs font-mono font-semibold text-amber-400">SYNCOPS</span>
                     </div>
                     <p class="text-[10px] text-zinc-400 hidden sm:block">Infrastructure & Performance Operations</p>
                 </div>
@@ -159,7 +159,7 @@
                             Pemeliharaan Sistem Dalam Proses
                         </h1>
                         <p class="text-zinc-400 text-sm leading-relaxed">
-                            Kami sedang melakukan peningkatan infrastruktur rutin, pembaruan skema basis data, serta pengoptimalan kluster untuk meningkatkan kinerja dan stabilitas layanan <span class="text-zinc-200 font-semibold">SyncOps Telemetry Hub</span>.
+                            Kami sedang melakukan peningkatan infrastruktur rutin, pembaruan skema basis data, serta pengoptimalan kluster untuk meningkatkan kinerja dan stabilitas layanan <span class="text-zinc-200 font-semibold">SyncOps</span>.
                         </p>
                     </div>
 
@@ -307,7 +307,7 @@
         <!-- Footer Shortcuts -->
         <footer class="w-full pt-4 pb-2 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500 font-sans">
             <div class="flex items-center gap-2">
-                <span class="font-bold text-zinc-300 font-mono text-[11px]">SyncOps Telemetry Hub</span>
+                <span class="font-bold text-zinc-300 font-mono text-[11px]">SyncOps</span>
                 <span>·</span>
                 <span>© 2026 SyncOps Inc. All rights reserved.</span>
             </div>

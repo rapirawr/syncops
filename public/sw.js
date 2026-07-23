@@ -1,5 +1,5 @@
 /**
- * Service Worker - Telemetry Hub & Monitoring System
+ * Service Worker - SyncOps Monitoring System
  * File: public/sw.js
  */
 

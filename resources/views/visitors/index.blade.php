@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Visitor Traffic & Tracking Pixel | Telemetry Hub')
+@section('title', 'Visitor Traffic & Tracking Pixel | SyncOps')
 
 @section('content')
 @php
